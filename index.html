@@ -16,6 +16,36 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <style>
+  /* Hiệu ứng hiện ra mượt mà */
+  .fade-in-up {
+    animation: fadeInUp 1.5s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Hiệu ứng chữ lấp lánh cho câu chúc */
+  .wish-text {
+    background: linear-gradient(90deg, #ff0000, #ffcc00, #ff0000);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+  }
+
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+</style>
 </head>
 
 <body class="bg-blue-50 text-gray-800">
@@ -37,49 +67,64 @@
   </button>
 </header>
 
-<main class="p-4 space-y-10 max-w-6xl mx-auto">
+<header class="bg-red-600 text-white p-4 flex justify-between items-center shadow-lg">
+  <h1 class="text-xl font-bold cursor-pointer" onclick="showSection('home')">🧧 Lớp A5 - Rạch Kiến</h1>
+  <button id="loginBtn" class="text-sm bg-white text-red-600 px-3 py-1 rounded-full font-semibold">
+    Đăng nhập
+  </button>
+</header>
 
-  <!-- STUDENT LIST -->
-  <section id="section-students">
-    <h2 class="text-2xl font-semibold mb-3">👩‍🎓👨‍🎓 Danh sách học sinh</h2>
-    <div id="studentList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"></div>
-    <button id="addStudentBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
+<nav class="bg-yellow-100 shadow-md border-b border-yellow-200">
+  <div class="max-w-6xl mx-auto flex justify-around py-3 text-sm font-bold">
+    <button onclick="showSection('home')" class="text-red-700 hover:text-red-500 flex flex-col items-center">🏠 <span>Trang chủ</span></button>
+    <button onclick="showSection('students')" class="text-red-700 hover:text-red-500 flex flex-col items-center">👩‍🎓 <span>Học sinh</span></button>
+    <button onclick="showSection('gallery')"  class="text-red-700 hover:text-red-500 flex flex-col items-center">📸 <span>Ảnh lớp</span></button>
+    <button onclick="showSection('events')"   class="text-red-700 hover:text-red-500 flex flex-col items-center">📅 <span>Sự kiện</span></button>
+  </div>
+</nav>
+
+<main class="p-4 max-w-6xl mx-auto">
+
+  <section id="section-home" class="py-10 text-center">
+  <div id="home-content" class="fade-in-up">
+    <div class="text-6xl mb-4">🧧</div>
+    
+    <h2 class="text-3xl md:text-5xl font-black mb-6 px-4">
+      <span class="wish-text uppercase">Chúc Mừng Năm Mới 2026</span>
+    </h2>
+
+    <div class="max-w-2xl mx-auto bg-white/80 p-6 rounded-3xl shadow-xl border-2 border-red-500 mx-4">
+      <p id="wish-message" class="text-xl md:text-2xl text-red-700 font-serif italic leading-relaxed">
+        "Chúc tập thể lớp A5 một năm mới vạn sự như ý, <br> 
+        học tập bứt phá, gắn kết bền lâu và <br>
+        luôn tràn đầy niềm vui!"
+      </p>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-4 mt-10">
+      <button onclick="showSection('students')" class="bg-red-600 hover:scale-105 transition-transform text-white font-bold py-3 px-6 rounded-full shadow-lg">
+        👩‍🎓 Danh sách lớp
+      </button>
+      <button onclick="showSection('gallery')" class="bg-yellow-500 hover:scale-105 transition-transform text-white font-bold py-3 px-6 rounded-full shadow-lg">
+        📸 Ảnh kỷ niệm
+      </button>
+    </div>
+  </div>
+</section>
+
+  <section id="section-students" class="hidden">
+    <h2 class="text-2xl font-semibold mb-3 border-b-2 border-red-500 pb-2">👩‍🎓👨‍🎓 Danh sách học sinh</h2>
+    <div id="studentList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mt-4"></div>
+    <button id="addStudentBtn" class="hidden mt-6 bg-red-600 text-white px-4 py-2 rounded shadow">
       ➕ Thêm học sinh
     </button>
   </section>
 
-  <!-- GALLERY -->
   <section id="section-gallery" class="hidden">
-    <h2 class="text-2xl font-semibold mb-3">📸 Ảnh lớp</h2>
+     </section>
 
-    <!-- Ảnh lớp giới thiệu -->
-    <img src="class.png"
-         class="w-full rounded-xl shadow mb-4"
-         alt="Ảnh lớp A5">
-
-    <div id="gallery" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
-
-    <input type="file" id="uploadImage" class="hidden" />
-    <button id="uploadBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
-      📤 Tải ảnh lên
-    </button>
-  </section>
-
-  <!-- EVENTS -->
   <section id="section-events" class="hidden">
-    <h2 class="text-2xl font-semibold mb-3">📅 Sự kiện / Menu</h2>
-
-    <!-- MENU ĐỒ ĂN -->
-    <img src="menu.png"
-         class="w-full max-w-2xl mx-auto rounded-xl shadow mb-6"
-         alt="Menu đồ ăn">
-
-    <div id="events" class="space-y-4"></div>
-
-    <button id="addEventBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
-      ➕ Thêm sự kiện
-    </button>
-  </section>
+     </section>
 
 </main>
 
@@ -193,16 +238,27 @@ document.getElementById("addEventBtn").onclick = async () => {
 </script>
 <script>
 function showSection(name) {
-  document.getElementById("section-students").classList.add("hidden");
-  document.getElementById("section-gallery").classList.add("hidden");
-  document.getElementById("section-events").classList.add("hidden");
+  const sections = ['home', 'students', 'gallery', 'events'];
+  
+  sections.forEach(s => {
+    const element = document.getElementById("section-" + s);
+    if (s === name) {
+      element.classList.remove("hidden");
+      
+      // Nếu là trang chủ, reset lại animation
+      if (name === 'home') {
+        const content = document.getElementById("home-content");
+        content.classList.remove("fade-in-up");
+        void content.offsetWidth; // Thủ thuật để trình duyệt hiểu là cần chạy lại animation
+        content.classList.add("fade-in-up");
+      }
 
-  document.getElementById("section-" + name).classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      element.classList.add("hidden");
+    }
+  });
 }
 </script>
 </body>
 </html>
-
-
-
-
