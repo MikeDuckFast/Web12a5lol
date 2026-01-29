@@ -22,17 +22,25 @@
 
 <!-- HEADER -->
 <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+  <!-- MENU ĐIỀU HƯỚNG -->
+<nav class="bg-white shadow-sm">
+  <div class="max-w-6xl mx-auto flex justify-around py-2 text-sm font-medium">
+    <button onclick="showSection('students')" class="text-blue-600">👩‍🎓 Học sinh</button>
+    <button onclick="showSection('gallery')"  class="text-blue-600">📸 Ảnh lớp</button>
+    <button onclick="showSection('events')"   class="text-blue-600">📅 Sự kiện</button>
+  </div>
+</nav>
+
   <h1 class="text-xl font-bold">Lớp A5 - THPT Rạch Kiến</h1>
   <button id="loginBtn" class="text-sm bg-white text-blue-600 px-3 py-1 rounded">
     Đăng nhập
   </button>
 </header>
 
-<!-- MAIN -->
 <main class="p-4 space-y-10 max-w-6xl mx-auto">
 
   <!-- STUDENT LIST -->
-  <section>
+  <section id="section-students">
     <h2 class="text-2xl font-semibold mb-3">👩‍🎓👨‍🎓 Danh sách học sinh</h2>
     <div id="studentList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"></div>
     <button id="addStudentBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
@@ -41,9 +49,16 @@
   </section>
 
   <!-- GALLERY -->
-  <section>
-    <h2 class="text-2xl font-semibold mb-3">📸 Thư viện ảnh lớp</h2>
+  <section id="section-gallery" class="hidden">
+    <h2 class="text-2xl font-semibold mb-3">📸 Ảnh lớp</h2>
+
+    <!-- Ảnh lớp giới thiệu -->
+    <img src="class.jpg"
+         class="w-full rounded-xl shadow mb-4"
+         alt="Ảnh lớp A5">
+
     <div id="gallery" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+
     <input type="file" id="uploadImage" class="hidden" />
     <button id="uploadBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
       📤 Tải ảnh lên
@@ -51,15 +66,23 @@
   </section>
 
   <!-- EVENTS -->
-  <section>
-    <h2 class="text-2xl font-semibold mb-3">📅 Sự kiện</h2>
+  <section id="section-events" class="hidden">
+    <h2 class="text-2xl font-semibold mb-3">📅 Sự kiện / Menu</h2>
+
+    <!-- MENU ĐỒ ĂN -->
+    <img src="menu.jpg"
+         class="w-full max-w-2xl mx-auto rounded-xl shadow mb-6"
+         alt="Menu đồ ăn">
+
     <div id="events" class="space-y-4"></div>
+
     <button id="addEventBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
       ➕ Thêm sự kiện
     </button>
   </section>
 
 </main>
+
 
 <!-- FOOTER -->
 <footer class="bg-blue-600 text-white text-center p-3 mt-10">
@@ -168,8 +191,17 @@ document.getElementById("addEventBtn").onclick = async () => {
   }
 };
 </script>
+<script>
+function showSection(name) {
+  document.getElementById("section-students").classList.add("hidden");
+  document.getElementById("section-gallery").classList.add("hidden");
+  document.getElementById("section-events").classList.add("hidden");
 
+  document.getElementById("section-" + name).classList.remove("hidden");
+}
+</script>
 </body>
 </html>
+
 
 
