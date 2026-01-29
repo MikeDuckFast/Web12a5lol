@@ -13,7 +13,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
-  <style>
+<style>
     body { font-family: 'Quicksand', sans-serif; overflow-x: hidden; }
     #wish-message { font-family: 'Dancing Script', cursive; }
     .wish-title { font-family: 'Montserrat', sans-serif; }
@@ -35,14 +35,20 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hiệu ứng hoa rơi */
+    /* FIX: Hiệu ứng hoa rơi chuẩn */
     .petal {
-      position: absolute; background-color: #ffeb3b; border-radius: 150% 0 150% 0;
-      opacity: 0.8; z-index: 99; pointer-events: none; animation: fall linear infinite;
+      position: fixed; /* Đổi sang fixed để không bị lệch khi cuộn trang */
+      top: -10px;
+      background-color: #ffeb3b; 
+      border-radius: 150% 0 150% 0;
+      opacity: 0.8; 
+      z-index: 9999; /* Đảm bảo nằm trên cùng */
+      pointer-events: none; 
+      animation: fall linear infinite;
     }
     @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+      0% { transform: translateY(0vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
@@ -68,7 +74,6 @@
 </nav>
 
 <main class="p-4 max-w-6xl mx-auto min-h-screen">
-  
   <section id="section-home" class="py-12 text-center flex flex-col justify-center min-h-[60vh]">
     <div id="home-content" class="fade-in-up">
       <div class="text-6xl mb-6">🧧</div>
@@ -87,26 +92,30 @@
     </div>
   </section>
 
-  <section id="section-students" class="hidden animate-fade-in">
+  <section id="section-students" class="hidden">
     <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">👩‍🎓 Danh sách học sinh</h2>
-    <div id="studentList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    <div id="studentList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+  </section>
+
+  <section id="section-gallery" class="hidden">
+    <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Khoảnh khắc A5</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <img src="anh1.jpg" class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover" alt="Ảnh 1">
+      <img src="anh2.jpg" class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover" alt="Ảnh 2">
+      <img src="anh3.jpg" class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover" alt="Ảnh 3">
+    </div>
+  </section>
+
+  <section id="section-events" class="hidden">
+    <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📅 Sự kiện nổi bật</h2>
+    <div class="space-y-6">
+      <div class="bg-red-900/20 p-6 rounded-2xl border border-yellow-600/30">
+        <h3 class="text-xl font-bold text-yellow-400">Tên sự kiện của bạn</h3>
+        <p class="text-gray-300 mt-2">Mô tả sự kiện hoặc kỷ niệm của lớp tại đây.</p>
+        <img src="anh-su-kien.jpg" class="mt-4 rounded-lg max-h-80 mx-auto" alt="Sự kiện">
       </div>
-    <button id="addStudentBtn" class="hidden mt-8 bg-red-600 px-6 py-2 rounded-lg font-bold">➕ Thêm học sinh</button>
+    </div>
   </section>
-
-  <section id="section-gallery" class="hidden animate-fade-in">
-    <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2 text-left">📸 Ảnh lớp</h2>
-    <div id="gallery" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-    <input type="file" id="uploadImage" class="hidden" />
-    <button id="uploadBtn" class="hidden mt-6 bg-red-600 px-6 py-2 rounded-lg font-bold">📤 Tải ảnh lên</button>
-  </section>
-
-  <section id="section-events" class="hidden animate-fade-in">
-    <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📅 Sự kiện & Menu</h2>
-    <div id="events" class="space-y-4"></div>
-    <button id="addEventBtn" class="hidden mt-6 bg-red-600 px-6 py-2 rounded-lg font-bold">➕ Thêm sự kiện</button>
-  </section>
-
 </main>
 
 <footer class="bg-black/50 text-yellow-600 text-center p-8 mt-10 border-t border-yellow-900/30">
@@ -114,37 +123,31 @@
 </footer>
 
 <script>
-/* ================= CẤU HÌNH FIREBASE (HÃY THAY BẰNG KEY CỦA BẠN) ================= */
-const firebaseConfig = {
-  apiKey: "AIzaSy...", // Lấy từ Firebase Console
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
-};
-
+/* ================= FIREBASE (Tạm để đó) ================= */
+const firebaseConfig = { apiKey: "AIzaSy...", authDomain: "...", projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..." };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-/* === LOGIC ĐIỀU HƯỚNG === */
+/* === LOGIC ĐIỀU HƯỚNG (Đã fix lỗi lồng thẻ script) === */
 function showSection(name) {
   const sections = ['home', 'students', 'gallery', 'events'];
   sections.forEach(s => {
     const el = document.getElementById("section-" + s);
-    if (s === name) {
-      el.classList.remove("hidden");
-      if (name === 'home') {
-        const content = document.getElementById("home-content");
-        content.classList.remove("fade-in-up");
-        void content.offsetWidth;
-        content.classList.add("fade-in-up");
+    if (el) {
+      if (s === name) {
+        el.classList.remove("hidden");
+        if (name === 'home') {
+          const content = document.getElementById("home-content");
+          content.classList.remove("fade-in-up");
+          void content.offsetWidth;
+          content.classList.add("fade-in-up");
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        el.classList.add("hidden");
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      el.classList.add("hidden");
     }
   });
 }
@@ -153,18 +156,14 @@ function showSection(name) {
 function createPetal() {
   const petal = document.createElement('div');
   petal.className = 'petal';
+  const size = Math.random() * 10 + 8 + 'px';
+  petal.style.width = size;
+  petal.style.height = size;
   petal.style.left = Math.random() * 100 + 'vw';
-  petal.style.width = Math.random() * 10 + 5 + 'px';
-  petal.style.height = petal.style.width;
-  petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+  petal.style.animationDuration = Math.random() * 3 + 4 + 's';
   document.body.appendChild(petal);
-  setTimeout(() => petal.remove(), 5000);
+  setTimeout(() => { petal.remove(); }, 7000);
 }
-setInterval(createPetal, 300);
-
-/* === CÁC XỬ LÝ DỮ LIỆU (GIỮ NGUYÊN TỪ CODE CŨ) === */
-// ... (Phần code auth.onAuthStateChanged và db.collection của bạn dán vào đây) ...
-// Lưu ý: Đảm bảo tên ID trong các hàm JS khớp với ID trong HTML mới (studentList, gallery, v.v.)
+setInterval(createPetal, 400);
 </script>
-</body>
 </html>
