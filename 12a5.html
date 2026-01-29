@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lớp A5 - THPT Rạch Kiến</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Site Verification -->
+  <meta name="google-site-verification" content="s_Q5mfJ4zBjllbnOJIIHzDSH5w6d-5AHdIcGBldB7pg" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+</head>
+
+<body class="bg-blue-50 text-gray-800">
+
+<!-- HEADER -->
+<header class="bg-blue-600 text-white p-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">Lớp A5 - THPT Rạch Kiến</h1>
+  <button id="loginBtn" class="text-sm bg-white text-blue-600 px-3 py-1 rounded">
+    Đăng nhập
+  </button>
+</header>
+
+<!-- MAIN -->
+<main class="p-4 space-y-10 max-w-6xl mx-auto">
+
+  <!-- STUDENT LIST -->
+  <section>
+    <h2 class="text-2xl font-semibold mb-3">👩‍🎓👨‍🎓 Danh sách học sinh</h2>
+    <div id="studentList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"></div>
+    <button id="addStudentBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
+      ➕ Thêm học sinh
+    </button>
+  </section>
+
+  <!-- GALLERY -->
+  <section>
+    <h2 class="text-2xl font-semibold mb-3">📸 Thư viện ảnh lớp</h2>
+    <div id="gallery" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+    <input type="file" id="uploadImage" class="hidden" />
+    <button id="uploadBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
+      📤 Tải ảnh lên
+    </button>
+  </section>
+
+  <!-- EVENTS -->
+  <section>
+    <h2 class="text-2xl font-semibold mb-3">📅 Sự kiện</h2>
+    <div id="events" class="space-y-4"></div>
+    <button id="addEventBtn" class="hidden mt-3 bg-blue-600 text-white px-4 py-2 rounded">
+      ➕ Thêm sự kiện
+    </button>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-blue-600 text-white text-center p-3 mt-10">
+  © 2026 - Lớp A5 THPT Rạch Kiến
+</footer>
+
+<script>
+/* ================= FIREBASE CONFIG ================= */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+/* ================= AUTH ================= */
+const loginBtn = document.getElementById("loginBtn");
+
+loginBtn.onclick = async () => {
+  const email = prompt("Email Admin:");
+  const password = prompt("Mật khẩu:");
+  await auth.signInWithEmailAndPassword(email, password);
+};
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById("addStudentBtn").classList.remove("hidden");
+    document.getElementById("uploadBtn").classList.remove("hidden");
+    document.getElementById("addEventBtn").classList.remove("hidden");
+    loginBtn.textContent = "Đã đăng nhập";
+  }
+});
+
+/* ================= STUDENTS ================= */
+const studentList = document.getElementById("studentList");
+
+db.collection("students").onSnapshot(snapshot => {
+  studentList.innerHTML = "";
+  snapshot.forEach(doc => {
+    const div = document.createElement("div");
+    div.className = "bg-white p-2 rounded shadow text-center";
+    div.textContent = doc.data().name;
+    studentList.appendChild(div);
+  });
+});
+
+document.getElementById("addStudentBtn").onclick = async () => {
+  const name = prompt("Tên học sinh:");
+  if (name) {
+    await db.collection("students").add({ name });
+  }
+};
+
+/* ================= GALLERY ================= */
+const uploadBtn = document.getElementById("uploadBtn");
+const uploadInput = document.getElementById("uploadImage");
+
+uploadBtn.onclick = () => uploadInput.click();
+
+uploadInput.onchange = async (e) => {
+  const file = e.target.files[0];
+  const ref = storage.ref("gallery/" + file.name);
+  await ref.put(file);
+  const url = await ref.getDownloadURL();
+  await db.collection("gallery").add({ url });
+};
+
+db.collection("gallery").onSnapshot(snapshot => {
+  document.getElementById("gallery").innerHTML = "";
+  snapshot.forEach(doc => {
+    const img = document.createElement("img");
+    img.src = doc.data().url;
+    img.className = "rounded shadow";
+    document.getElementById("gallery").appendChild(img);
+  });
+});
+
+/* ================= EVENTS ================= */
+db.collection("events").onSnapshot(snapshot => {
+  const eventsDiv = document.getElementById("events");
+  eventsDiv.innerHTML = "";
+  snapshot.forEach(doc => {
+    const e = doc.data();
+    eventsDiv.innerHTML += `
+      <div class="bg-white p-4 rounded shadow">
+        <h3 class="font-bold text-lg">${e.title}</h3>
+        <p class="mt-2">${e.content}</p>
+      </div>
+    `;
+  });
+});
+
+document.getElementById("addEventBtn").onclick = async () => {
+  const title = prompt("Tiêu đề:");
+  const content = prompt("Nội dung:");
+  if (title && content) {
+    await db.collection("events").add({ title, content });
+  }
+};
+</script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyB7pqM8nRYBuCSDORWCxKj4rER-hQZngHM",
+    authDomain: "a5-thptrachkien.firebaseapp.com",
+    projectId: "a5-thptrachkien",
+    storageBucket: "a5-thptrachkien.firebasestorage.app",
+    messagingSenderId: "315071040229",
+    appId: "1:315071040229:web:c2561ca1351522b0df620c"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+</body>
+</html>
