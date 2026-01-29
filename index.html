@@ -59,7 +59,7 @@
   <h1 class="text-xl font-bold cursor-pointer flex items-center gap-2" onclick="showSection('home')">
     <span>🧧</span> Lớp A5 - Rạch Kiến
   </h1>
-  <button id="loginBtn" class="text-sm bg-yellow-500 hover:bg-yellow-400 text-red-900 px-4 py-1.5 rounded-full font-bold transition-all">
+  <button id="loginBtn" class="text-sm bg-yellow-500 hover:bg-yellow-400 text-blue-900 px-4 py-1.5 rounded-full font-bold transition-all">
     Đăng nhập
   </button>
 </header>
@@ -82,13 +82,10 @@
       </h2>
       <div class="max-w-3xl mx-auto bg-red-900/40 backdrop-blur-md p-8 rounded-[2rem] border-2 border-yellow-600/50 shadow-2xl mb-10 mx-4">
         <p id="wish-message" class="text-2xl md:text-4xl text-yellow-400 leading-relaxed">
-          "Chúc tập thể lớp A5 một năm mới vạn sự như ý, học tập bứt phá, luôn tràn đầy niềm vui!"
+          "Chúc bạn một năm mới vạn sự như ý, học tập bứt phá, luôn tràn đầy niềm vui!"
         </p>
       </div>
-      <div class="flex flex-wrap justify-center gap-4">
-        <button onclick="showSection('students')" class="bg-red-600 hover:bg-red-500 px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg">Xem Danh Sách Lớp</button>
-        <button onclick="showSection('gallery')" class="bg-yellow-600 hover:bg-yellow-500 px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg">Ảnh Kỷ Niệm</button>
-      </div>
+      
     </div>
   </section>
 
@@ -101,8 +98,7 @@
     <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Khoảnh khắc A5</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <img src="anh1.jpg" class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover" alt="Ảnh 1">
-      <img src="anh2.jpg" class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover" alt="Ảnh 2">
-      <img src="anh3.jpg" class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover" alt="Ảnh 3">
+      
     </div>
   </section>
 
@@ -110,9 +106,9 @@
     <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📅 Sự kiện nổi bật</h2>
     <div class="space-y-6">
       <div class="bg-red-900/20 p-6 rounded-2xl border border-yellow-600/30">
-        <h3 class="text-xl font-bold text-yellow-400">Tên sự kiện của bạn</h3>
-        <p class="text-gray-300 mt-2">Mô tả sự kiện hoặc kỷ niệm của lớp tại đây.</p>
-        <img src="anh-su-kien.jpg" class="mt-4 rounded-lg max-h-80 mx-auto" alt="Sự kiện">
+        <h3 class="text-xl font-bold text-yellow-400">Hội Xuân 2026</h3>
+        <p class="text-gray-300 mt-2">Menu hội xuân của lớp 12A5 chúng mình nè.</p>
+        <img src="menu.png" class="mt-4 rounded-lg max-h-80 mx-auto" alt="Sự kiện">
       </div>
     </div>
   </section>
@@ -167,3 +163,4 @@ function createPetal() {
 setInterval(createPetal, 400);
 </script>
 </html>
+
