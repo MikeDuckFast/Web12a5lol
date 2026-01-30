@@ -100,12 +100,16 @@
   </section>
 
   <section id="section-gallery" class="hidden">
-    <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Khoảnh khắc A5</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <img src="class1.jpg" class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover" alt="Ảnh 1">
-      
-    </div>
-  </section>
+  <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Khoảnh khắc A5</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <img src="class1.jpg" 
+         onclick="openModal(this.src)" 
+         class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover cursor-zoom-in hover:brightness-110 transition-all" 
+         alt="Ảnh tập thể">
+         
+  </div>
+</section>
 
   <section id="section-events" class="hidden">
   <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">
@@ -129,7 +133,7 @@
     >
   </div>
 </section>
-
+  
 </main>
 
 <footer class="bg-black/50 text-yellow-600 text-center p-8 mt-10 border-t border-yellow-900/30">
@@ -137,13 +141,32 @@
 </footer>
 
 <script>
+  /* === PHÓNG TO ẢNH === */
+function openModal(src) {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  modalImg.src = src;
+  modal.classList.remove('hidden');
+  // Thêm hiệu ứng mượt mà
+  setTimeout(() => {
+    modalImg.classList.remove('scale-95');
+    modalImg.classList.add('scale-100');
+  }, 10);
+}
+
+function closeModal() {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  modalImg.classList.add('scale-95');
+  modal.classList.add('hidden');
+}
 /* ================= FIREBASE (Tạm để đó) ================= */
 const firebaseConfig = { apiKey: "AIzaSy...", authDomain: "...", projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..." };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
-
+  
 /* === LOGIC ĐIỀU HƯỚNG (Đã fix lỗi lồng thẻ script) === */
 function showSection(name) {
   const sections = ['home', 'students', 'gallery', 'events'];
@@ -180,9 +203,15 @@ function createPetal() {
 }
 setInterval(createPetal, 400);
 </script>
+  <div id="imageModal" 
+     class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center p-4 cursor-zoom-out" 
+     onclick="closeModal()">
+  
+  <button class="absolute top-5 right-5 text-white text-4xl">&times;</button>
+  
+  <img id="modalImg" src="" 
+       class="max-w-full max-h-full rounded-lg shadow-2xl transition-transform duration-300 transform scale-95" 
+       onclick="event.stopPropagation()">
+</div>
+</body>
 </html>
-
-
-
-
-
