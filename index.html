@@ -59,7 +59,7 @@
   <h1 class="text-xl font-bold cursor-pointer flex items-center gap-2" onclick="showSection('home')">
     <span>🧧</span> Lớp A5 - Rạch Kiến
   </h1>
-  <button id="loginBtn" class="text-sm bg-orange-500 hover:bg-yellow-400 text-blue-900 px-4 py-1.5 rounded-full font-bold transition-all">
+  <button id="loginBtn" class="text-sm bg-yellow-500 hover:bg-white-400 text-red-900 px-4 py-1.5 rounded-full font-bold transition-all">
     Đăng nhập
   </button>
 </header>
@@ -140,79 +140,72 @@
   © 2026 - Lớp A5 THPT Rạch Kiến
 </footer>
 
-<script>
-  /* === PHÓNG TO ẢNH === */
-function openModal(src) {
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  modalImg.src = src;
-  modal.classList.remove('hidden');
-  // Thêm hiệu ứng mượt mà
-  setTimeout(() => {
-    modalImg.classList.remove('scale-95');
-    modalImg.classList.add('scale-100');
-  }, 10);
-}
-
-function closeModal() {
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  modalImg.classList.add('scale-95');
-  modal.classList.add('hidden');
-}
-/* ================= FIREBASE (Tạm để đó) ================= */
-const firebaseConfig = { apiKey: "AIzaSy...", authDomain: "...", projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..." };
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
-  
-/* === LOGIC ĐIỀU HƯỚNG (Đã fix lỗi lồng thẻ script) === */
-function showSection(name) {
-  const sections = ['home', 'students', 'gallery', 'events'];
-  sections.forEach(s => {
-    const el = document.getElementById("section-" + s);
-    if (el) {
-      if (s === name) {
-        el.classList.remove("hidden");
-        if (name === 'home') {
-          const content = document.getElementById("home-content");
-          content.classList.remove("fade-in-up");
-          void content.offsetWidth;
-          content.classList.add("fade-in-up");
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        el.classList.add("hidden");
-      }
-    }
-  });
-}
-
-/* === HIỆU ỨNG HOA MAI RƠI === */
-function createPetal() {
-  const petal = document.createElement('div');
-  petal.className = 'petal';
-  const size = Math.random() * 10 + 8 + 'px';
-  petal.style.width = size;
-  petal.style.height = size;
-  petal.style.left = Math.random() * 100 + 'vw';
-  petal.style.animationDuration = Math.random() * 3 + 4 + 's';
-  document.body.appendChild(petal);
-  setTimeout(() => { petal.remove(); }, 7000);
-}
-setInterval(createPetal, 400);
-</script>
-  <div id="imageModal" 
+<div id="imageModal" 
      class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center p-4 cursor-zoom-out" 
      onclick="closeModal()">
-  
   <button class="absolute top-5 right-5 text-white text-4xl">&times;</button>
-  
   <img id="modalImg" src="" 
        class="max-w-full max-h-full rounded-lg shadow-2xl transition-transform duration-300 transform scale-95" 
        onclick="event.stopPropagation()">
 </div>
+
+<script>
+  /* === HÀM PHÓNG TO ẢNH === */
+  function openModal(src) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    modalImg.src = src;
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modalImg.classList.remove('scale-95');
+      modalImg.classList.add('scale-100');
+    }, 10);
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    modalImg.classList.add('scale-95');
+    modal.classList.add('hidden');
+  }
+
+  /* === CÁC LOGIC KHÁC (Firebase, showSection, hoa rơi...) giữ nguyên như cũ của bạn === */
+  function showSection(name) {
+    const sections = ['home', 'students', 'gallery', 'events'];
+    sections.forEach(s => {
+      const el = document.getElementById("section-" + s);
+      if (el) {
+        if (s === name) {
+          el.classList.remove("hidden");
+          if (name === 'home') {
+            const content = document.getElementById("home-content");
+            content.classList.remove("fade-in-up");
+            void content.offsetWidth;
+            content.classList.add("fade-in-up");
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          el.classList.add("hidden");
+        }
+      }
+    });
+  }
+
+  function createPetal() {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    const size = Math.random() * 10 + 8 + 'px';
+    petal.style.width = size;
+    petal.style.height = size;
+    petal.style.left = Math.random() * 100 + 'vw';
+    petal.style.animationDuration = Math.random() * 3 + 4 + 's';
+    document.body.appendChild(petal);
+    setTimeout(() => { petal.remove(); }, 7000);
+  }
+  setInterval(createPetal, 400);
+</script>
+
 </body>
 </html>
+
 
