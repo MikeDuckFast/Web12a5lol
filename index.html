@@ -265,7 +265,6 @@ setInterval(createPetal, 400);
  firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
  const studentsData = [
- [
   {
     "name": "Nguyễn Gia An",
     "birthday": "12/11/2008",
@@ -491,7 +490,6 @@ const db = firebase.firestore();
     "birthday": "03/04/2008",
     "gender": "Nữ"
   }
-]
 ];
 function uploadStudents() {
   studentsData.forEach((student) => {
@@ -511,6 +509,7 @@ function uploadStudents() {
   
 </body>
 </html>
+
 
 
 
