@@ -50,7 +50,32 @@
       0% { transform: translateY(0vh) rotate(0deg); opacity: 1; }
       100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
     }
+  /* Logo nổi bật */
+.logo {
+  font-size: 22px;
+  font-weight: 900;
+  background: linear-gradient(90deg, #fff6a0, #ffd700, #ffae00, #ffd700);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 
+      0 0 5px rgba(255, 215, 0, 0.6),
+      0 0 15px rgba(255, 140, 0, 0.4);
+  animation: logoShine 4s linear infinite;
+  transition: 0.3s;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+@keyframes logoShine {
+  0% { background-position: 0% }
+  100% { background-position: 200% }
+}
+
   </style>
+  
 </head>
 
 <body class="bg-zinc-900 text-gray-100">
@@ -59,10 +84,10 @@
 
   <!-- Logo + tên lớp -->
   <div class="flex items-center gap-8">
-    <h1 class="text-xl font-bold cursor-pointer flex items-center gap-2"
+    <h1 class="logo cursor-pointer flex items-center gap-2"
         onclick="showSection('home')">
       <span>⚜</span> Lớp 12A5 - Rạch Kiến
-    </h1>
+</h1>
     <!-- Menu -->
     <div class="hidden md:flex gap-6 text-sm font-bold">
       <button onclick="showSection('home')" class="hover:text-yellow-300 transition">🏠 TRANG CHỦ</button>
@@ -232,6 +257,7 @@ setInterval(createPetal, 400);
 </script>
 </body>
 </html>
+
 
 
 
