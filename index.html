@@ -130,10 +130,7 @@
 
   <section id="section-students" class="hidden">
     <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">👩‍🎓 Danh sách học sinh</h2>
-    <button onclick="uploadStudents()" 
-        class="bg-green-600 text-white px-4 py-2 rounded">
-  Upload 45 học sinh
-</button>
+   
     <div id="studentList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
   </section>
 
@@ -208,26 +205,33 @@
   }
 
   /* === CÁC LOGIC KHÁC (Firebase, showSection, hoa rơi...) giữ nguyên như cũ của bạn === */
-  function showSection(name) {
-    const sections = ['home', 'students', 'gallery', 'events'];
-    sections.forEach(s => {
-      const el = document.getElementById("section-" + s);
-      if (el) {
-        if (s === name) {
-          el.classList.remove("hidden");
-          if (name === 'home') {
-            const content = document.getElementById("home-content");
-            content.classList.remove("fade-in-up");
-            void content.offsetWidth;
-            content.classList.add("fade-in-up");
-          }
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          el.classList.add("hidden");
+ function showSection(name) {
+  const sections = ['home', 'students', 'gallery', 'events'];
+  sections.forEach(s => {
+    const el = document.getElementById("section-" + s);
+    if (el) {
+      if (s === name) {
+        el.classList.remove("hidden");
+
+        if (name === 'students') {
+          loadStudents();
         }
+
+        if (name === 'home') {
+          const content = document.getElementById("home-content");
+          content.classList.remove("fade-in-up");
+          void content.offsetWidth;
+          content.classList.add("fade-in-up");
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        el.classList.add("hidden");
       }
-    });
-  }
+    }
+  });
+}
+
 
   function createPetal() {
   const petal = document.createElement('div');
@@ -264,233 +268,7 @@ setInterval(createPetal, 400);
 }; 
  firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
- const studentsData = [
-  {
-    "name": "Nguyễn Gia An",
-    "birthday": "12/11/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Đỗ Đức Hoàng An",
-    "birthday": "13/08/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Nguyễn Tuấn Anh",
-    "birthday": "30/11/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Huỳnh Trần Gia Bảo",
-    "birthday": "29/03/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Thái Hoàng Bảo",
-    "birthday": "30/12/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Phan Thế Bảo",
-    "birthday": "02/05/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Huỳnh Thị Minh Châu",
-    "birthday": "06/09/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Trần Bảo Duy",
-    "birthday": "29/06/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Dương Ngọc Duy",
-    "birthday": "06/12/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Lê Thị Hồng Đào",
-    "birthday": "19/11/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Đỗ Bùi Tiến Đạt",
-    "birthday": "06/09/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Nguyễn Huỳnh Đức",
-    "birthday": "27/05/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Bùi Gia Hân",
-    "birthday": "14/06/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Huỳnh Gia Hân",
-    "birthday": "21/02/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Nguyễn Thị Ngọc Hân",
-    "birthday": "02/05/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Lê Minh Hiếu",
-    "birthday": "11/03/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Nguyễn Minh Hiếu",
-    "birthday": "17/01/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Phạm Nguyễn Hoàng Huy",
-    "birthday": "22/07/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Phùng Thị Ngọc Huyền",
-    "birthday": "11/02/2006",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Phạm Nguyễn Anh Khoa",
-    "birthday": "02/02/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Nguyễn Phạm Đăng Khoa",
-    "birthday": "13/06/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Võ Thành Lộc",
-    "birthday": "14/08/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Võ Tú Mẫn",
-    "birthday": "12/07/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Đặng Kim Ngân",
-    "birthday": "25/07/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Phạm Thị Kim Ngân",
-    "birthday": "27/02/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Lại Thị Thu Ngân",
-    "birthday": "05/02/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Trần Nguyễn Song Nghi",
-    "birthday": "16/05/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Mai Đức Phát",
-    "birthday": "24/03/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Nguyễn Tấn Phát",
-    "birthday": "17/10/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Lê Nguyễn Hoàng Phú",
-    "birthday": "24/01/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Nguyễn Quỳnh Lam Phương",
-    "birthday": "20/12/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Bùi Phạm Nguyên Phương",
-    "birthday": "23/09/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Lê Hoàng Quân",
-    "birthday": "13/05/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Trần Như Quỳnh",
-    "birthday": "15/03/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Đặng Văn Thanh",
-    "birthday": "15/02/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Trần Công Thành",
-    "birthday": "19/03/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Lê Nguyễn Thu Thùy",
-    "birthday": "19/12/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Nguyễn Phúc Tiến",
-    "birthday": "25/08/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Lê Thanh Tùng",
-    "birthday": "03/10/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Trần Kim Tuyến",
-    "birthday": "23/10/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Phạm Thị Thanh Tuyết",
-    "birthday": "23/10/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Lê Thị Ngọc Vân",
-    "birthday": "16/04/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Phan Thanh Việt",
-    "birthday": "19/11/2008",
-    "gender": "Nam"
-  },
-  {
-    "name": "Nguyễn Trần Phương Vy",
-    "birthday": "03/09/2008",
-    "gender": "Nữ"
-  },
-  {
-    "name": "Phạm Ngọc Như Ý",
-    "birthday": "03/04/2008",
-    "gender": "Nữ"
-  }
-];
+
 function uploadStudents() {
   studentsData.forEach((student) => {
     db.collection("students").add(student)
@@ -504,11 +282,35 @@ function uploadStudents() {
 
   alert("Đã upload xong 45 học sinh!");
 }
+function loadStudents() {
+  const container = document.getElementById("studentList");
+  container.innerHTML = "";
+
+  db.collection("students").get().then((snapshot) => {
+    snapshot.forEach((doc) => {
+      const student = doc.data();
+
+      const card = document.createElement("div");
+      card.className = "bg-zinc-800 p-4 rounded-xl shadow-lg text-center border border-yellow-500/30 hover:scale-105 transition";
+
+      card.innerHTML = `
+        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=ffcc00&color=000"
+             class="w-20 h-20 mx-auto rounded-full mb-3 shadow-md">
+        <h3 class="font-bold text-yellow-400">${student.name}</h3>
+        <p class="text-sm text-gray-300">${student.birthday}</p>
+        <p class="text-sm text-gray-400">${student.gender}</p>
+      `;
+
+      container.appendChild(card);
+    });
+  });
+}
 
 </script>
   
 </body>
 </html>
+
 
 
 
