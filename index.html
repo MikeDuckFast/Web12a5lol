@@ -36,16 +36,16 @@
     }
 
     /* FIX: Hiệu ứng hoa rơi chuẩn */
-    .petal {
-      position: fixed; /* Đổi sang fixed để không bị lệch khi cuộn trang */
-      top: -10px;
-      background-color: #ffeb3b; 
-      border-radius: 150% 0 150% 0;
-      opacity: 0.8; 
-      z-index: 9999; /* Đảm bảo nằm trên cùng */
-      pointer-events: none; 
-      animation: fall linear infinite;
-    }
+   .petal {
+  position: fixed;
+  top: -40px;
+  font-size: 24px; /* kích thước icon */
+  z-index: 9999;
+  pointer-events: none;
+  animation: fall linear infinite;
+  user-select: none;
+}
+
     @keyframes fall {
       0% { transform: translateY(0vh) rotate(0deg); opacity: 1; }
       100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
@@ -192,21 +192,34 @@
   }
 
   function createPetal() {
-    const petal = document.createElement('div');
-    petal.className = 'petal';
-    const size = Math.random() * 10 + 8 + 'px';
-    petal.style.width = size;
-    petal.style.height = size;
-    petal.style.left = Math.random() * 100 + 'vw';
-    petal.style.animationDuration = Math.random() * 3 + 4 + 's';
-    document.body.appendChild(petal);
-    setTimeout(() => { petal.remove(); }, 7000);
-  }
-  setInterval(createPetal, 400);
+  const petal = document.createElement('div');
+  petal.className = 'petal';
+
+  // Gán icon bao lì xì
+  petal.innerHTML = "🧧";
+
+  // Random kích thước
+  const size = Math.random() * 20 + 20; // 20px → 40px
+  petal.style.fontSize = size + "px";
+
+  // Random vị trí ngang
+  petal.style.left = Math.random() * 100 + "vw";
+
+  // Random tốc độ rơi (giữ nguyên hiệu ứng cũ)
+  petal.style.animationDuration = Math.random() * 3 + 4 + "s";
+
+  document.body.appendChild(petal);
+
+  setTimeout(() => {
+    petal.remove();
+  }, 7000);
+}
+
 </script>
 
 </body>
 </html>
+
 
 
 
