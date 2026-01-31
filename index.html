@@ -268,6 +268,26 @@ setInterval(createPetal, 400);
 }; 
  firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+function openStudentModal(student) {
+  document.getElementById("modalAvatar").src =
+    student.avatar || "default-avatar.png";
+
+  document.getElementById("modalName").innerText = student.name;
+  document.getElementById("modalBirthday").innerText =
+    "🎂 " + student.birthday;
+
+  document.getElementById("modalGender").innerText =
+    "👤 " + student.gender;
+
+  document.getElementById("modalDescription").innerText =
+    student.description || "Chưa có mô tả.";
+
+  document.getElementById("studentModal").classList.remove("hidden");
+}
+
+function closeStudentModal() {
+  document.getElementById("studentModal").classList.add("hidden");
+}
 
 function uploadStudents() {
   studentsData.forEach((student) => {
@@ -287,29 +307,71 @@ function loadStudents() {
   container.innerHTML = "";
 
   db.collection("students").get().then((snapshot) => {
+
+    let studentsArray = [];
+
     snapshot.forEach((doc) => {
-      const student = doc.data();
-
-      const card = document.createElement("div");
-      card.className = "bg-zinc-800 p-4 rounded-xl shadow-lg text-center border border-yellow-500/30 hover:scale-105 transition";
-
-      card.innerHTML = `
-        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&background=ffcc00&color=000"
-             class="w-20 h-20 mx-auto rounded-full mb-3 shadow-md">
-        <h3 class="font-bold text-yellow-400">${student.name}</h3>
-        <p class="text-sm text-gray-300">${student.birthday}</p>
-        <p class="text-sm text-gray-400">${student.gender}</p>
-      `;
-
-      container.appendChild(card);
+      studentsArray.push(doc.data());
     });
+
+    // 🔥 Sắp xếp theo TÊN (chữ cuối)
+    studentsArray.sort((a, b) => {
+      const lastNameA = a.name.split(" ").pop();
+      const lastNameB = b.name.split(" ").pop();
+
+      return lastNameA.localeCompare(lastNameB, 'vi');
+    });
+
+    // Giữ nguyên giao diện thẻ
+    studentsArray.forEach((student) => {
+
+  const card = document.createElement("div");
+  card.className = "bg-zinc-800 p-4 rounded-2xl shadow-xl border border-yellow-500/20 text-center hover:scale-105 transition duration-300 cursor-pointer";
+
+  card.innerHTML = `
+    <img src="${student.avatar || 'default-avatar.png'}"
+         class="w-24 h-24 mx-auto rounded-full object-cover border-4 border-yellow-500 mb-3">
+
+    <h3 class="text-yellow-400 font-bold">${student.name}</h3>
+  `;
+
+  card.onclick = () => openStudentModal(student);
+
+  container.appendChild(card);
+});
+;
+
   });
 }
-
 </script>
-  
+  <!-- Modal thông tin học sinh -->
+<div id="studentModal"
+     class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-[200] p-4">
+
+  <div class="bg-zinc-900 max-w-md w-full rounded-2xl p-6 border border-yellow-500 shadow-2xl relative">
+
+    <button onclick="closeStudentModal()"
+      class="absolute top-3 right-4 text-white text-2xl">&times;</button>
+
+    <img id="modalAvatar"
+         class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-yellow-500 mb-4">
+
+    <h3 id="modalName"
+        class="text-yellow-400 text-xl font-bold text-center"></h3>
+
+    <p id="modalBirthday" class="text-center text-gray-300 mt-2"></p>
+    <p id="modalGender" class="text-center text-gray-400"></p>
+
+    <div class="mt-4 bg-yellow-500/10 p-4 rounded-xl border border-yellow-500/20">
+      <p id="modalDescription" class="text-gray-200 text-sm leading-relaxed"></p>
+    </div>
+
+  </div>
+</div>
+
 </body>
 </html>
+
 
 
 
