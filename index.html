@@ -129,16 +129,42 @@
     <div id="studentList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
   </section>
   <section id="section-gallery" class="hidden">
-  <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Khoảnh khắc A5</h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <h2 class="text-2xl font-bold mb-10 text-yellow-500 border-b border-yellow-500/30 pb-2">
+    📸 Hành Trình 3 Năm Thanh Xuân
+  </h2>
 
-    <img src="class1.jpg" 
-         onclick="openModal(this.src)" 
-         class="rounded-xl shadow-lg border-2 border-red-800 w-full h-64 object-cover cursor-zoom-in hover:brightness-110 transition-all" 
-         alt="Ảnh tập thể">
-         
+  <div class="relative border-l-4 border-yellow-600/50 ml-4 space-y-16">
+
+    <!-- LỚP 10 -->
+    <div class="relative pl-10">
+      <div class="absolute -left-[14px] top-2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
+      <h3 class="text-xl font-bold text-yellow-400 mb-4">📚 Năm Lớp 10 - Khởi Đầu</h3>
+      <img src="class10.jpg"
+           onclick="openModal(this.src)"
+           class="rounded-2xl shadow-2xl border-4 border-red-800 w-full max-w-3xl h-64 object-cover cursor-zoom-in hover:scale-105 transition duration-300">
+    </div>
+
+    <!-- LỚP 11 -->
+    <div class="relative pl-10">
+      <div class="absolute -left-[14px] top-2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
+      <h3 class="text-xl font-bold text-yellow-400 mb-4">📖 Năm Lớp 11 - Trưởng Thành</h3>
+      <img src="class11.jpg"
+           onclick="openModal(this.src)"
+           class="rounded-2xl shadow-2xl border-4 border-red-800 w-full max-w-3xl h-64 object-cover cursor-zoom-in hover:scale-105 transition duration-300">
+    </div>
+
+    <!-- LỚP 12 -->
+    <div class="relative pl-10">
+      <div class="absolute -left-[14px] top-2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
+      <h3 class="text-xl font-bold text-yellow-400 mb-4">🎓 Năm Lớp 12 - Bứt Phá</h3>
+      <img src="class12.jpg"
+           onclick="openModal(this.src)"
+           class="rounded-2xl shadow-2xl border-4 border-red-800 w-full max-w-3xl h-64 object-cover cursor-zoom-in hover:scale-105 transition duration-300">
+    </div>
+
   </div>
 </section>
+
 
   <section id="section-events" class="hidden">
   <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">
@@ -394,6 +420,7 @@ function loadStudents() {
 </div>
 </body>
 </html>
+
 
 
 
