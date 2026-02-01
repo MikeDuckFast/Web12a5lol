@@ -279,17 +279,9 @@ function openStudentModal(student) {
   const fbBtn = document.getElementById("modalFacebook");
 
   if (student.facebook && student.facebook.trim() !== "") {
-    fbBtn.onclick = function (e) {
+  fbBtn.onclick = function (e) {
   e.preventDefault();
-  const webUrl = student.facebook;
-  // Deep link mở app Facebook
-  const appUrl = "fb://facewebmodal/f?href=" + webUrl;
-  // Thử mở app
-  window.location.href = appUrl;
-  // Nếu sau 1 giây vẫn chưa mở → chuyển về web
-  setTimeout(() => {
-    window.open(webUrl, "_blank");
-  }, 1000);
+  window.open(student.facebook, "_blank");
 };
 
     fbBtn.classList.remove("hidden");
@@ -325,7 +317,6 @@ function loadStudents() {
   db.collection("students").get().then((snapshot) => {
 
     let studentsArray = [];
-
     snapshot.forEach((doc) => {
       studentsArray.push(doc.data());
     });
@@ -340,7 +331,6 @@ function loadStudents() {
 
     // Giữ nguyên giao diện thẻ
     studentsArray.forEach((student) => {
-
   const card = document.createElement("div");
   card.className = "bg-zinc-800 p-4 rounded-2xl shadow-xl border border-yellow-500/20 text-center hover:scale-105 transition duration-300 cursor-pointer";
   card.innerHTML = `
@@ -351,7 +341,6 @@ function loadStudents() {
   `;
 
   card.onclick = () => openStudentModal(student);
-
   container.appendChild(card);
 });
 ;
@@ -397,29 +386,4 @@ function loadStudents() {
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
