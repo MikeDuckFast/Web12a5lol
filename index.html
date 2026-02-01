@@ -279,7 +279,19 @@ function openStudentModal(student) {
   const fbBtn = document.getElementById("modalFacebook");
 
   if (student.facebook && student.facebook.trim() !== "") {
-    fbBtn.href = student.facebook;
+    fbBtn.onclick = function (e) {
+  e.preventDefault();
+  const webUrl = student.facebook;
+  // Deep link mở app Facebook
+  const appUrl = "fb://facewebmodal/f?href=" + webUrl;
+  // Thử mở app
+  window.location.href = appUrl;
+  // Nếu sau 1 giây vẫn chưa mở → chuyển về web
+  setTimeout(() => {
+    window.open(webUrl, "_blank");
+  }, 1000);
+};
+
     fbBtn.classList.remove("hidden");
   } else {
     fbBtn.classList.add("hidden");
@@ -385,6 +397,7 @@ function loadStudents() {
 </div>
 </body>
 </html>
+
 
 
 
