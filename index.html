@@ -262,44 +262,21 @@ setInterval(createPetal, 400);
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
   
-function openStudentModal(student) {
-  document.getElementById("modalAvatar").src =
-    student.avatar || "default-avatar.png";
+const fbBox = document.getElementById("modalFacebookBox");
+const fbText = document.getElementById("modalFacebookText");
 
-  document.getElementById("modalName").innerText = student.name;
-  document.getElementById("modalBirthday").innerText =
-    "🎂 " + student.birthday;
+if (student.facebook && student.facebook.trim() !== "") {
 
-  document.getElementById("modalGender").innerText =
-    "👤 " + student.gender;
+  const username = student.facebook.trim();
 
-  document.getElementById("modalDescription").innerText =
-    student.description || "Chưa có mô tả.";
+  // Hiển thị dạng có thể copy
+  fbText.innerText = "facebook.com/" + username;
 
-  const fbBtn = document.getElementById("modalFacebook");
+  fbBox.classList.remove("hidden");
 
- if (student.facebook && student.facebook.trim() !== "") {
-  fbBtn.onclick = function (e) {
-    e.preventDefault();
-    const username = student.facebook.trim();
-    // Deep link mở app trước
-    window.location.href = "fb://facewebmodal/f?href=https://www.facebook.com/" + username;
-
-    // Nếu máy không có app → fallback mở web
-    setTimeout(() => {
-      window.open("https://www.facebook.com/" + username, "_blank");
-    }, 1500);
-  };
-
-  fbBtn.classList.remove("hidden");
+} else {
+  fbBox.classList.add("hidden");
 }
- else {
-    fbBtn.classList.add("hidden");
-  }
-
-  document.getElementById("studentModal").classList.remove("hidden");
-}
-
 
 function closeStudentModal() {
   document.getElementById("studentModal").classList.add("hidden");
@@ -372,21 +349,25 @@ function loadStudents() {
 <p id="modalGender" class="text-center text-gray-400"></p>
 
 <!-- Logo Facebook -->
-<div class="text-center mt-3">
-  <a id="modalFacebook"
-     href="#"
-     target="_blank"
-     class="hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-500 transition shadow-lg">
-     
-     <!-- SVG icon Facebook -->
-     <svg xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24" 
-          fill="white" 
-          class="w-5 h-5">
-       <path d="M22 12a10 10 0 1 0-11.63 9.88v-6.99H7.9V12h2.47V9.8c0-2.44 1.46-3.8 3.7-3.8 1.07 0 2.2.19 2.2.19v2.42h-1.24c-1.22 0-1.6.76-1.6 1.54V12h2.72l-.43 2.89h-2.29v6.99A10 10 0 0 0 22 12z"/>
-     </svg>
-  </a>
+<div id="modalFacebookBox"
+     class="hidden mt-3 flex items-center gap-3 bg-blue-600/20 p-3 rounded-xl border border-blue-500/30">
+
+  <!-- Icon Facebook -->
+  <div class="w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 shadow">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 24 24"
+         fill="white"
+         class="w-5 h-5">
+      <path d="M22 12a10 10 0 1 0-11.63 9.88v-6.99H7.9V12h2.47V9.8c0-2.44 1.46-3.8 3.7-3.8 1.07 0 2.2.19 2.2.19v2.42h-1.24c-1.22 0-1.6.76-1.6 1.54V12h2.72l-.43 2.89h-2.29v6.99A10 10 0 0 0 22 12z"/>
+    </svg>
+  </div>
+  <!-- Link copy được -->
+  <p id="modalFacebookText"
+     class="text-blue-300 text-sm break-all select-text cursor-text">
+  </p>
+
 </div>
+
 <div class="mt-4 bg-yellow-500/10 p-4 rounded-xl border border-yellow-500/20">
   <p id="modalDescription" class="text-gray-200 text-sm leading-relaxed"></p>
 </div>
@@ -394,5 +375,6 @@ function loadStudents() {
 </div>
 </body>
 </html>
+
 
 
