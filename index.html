@@ -261,23 +261,42 @@ setInterval(createPetal, 400);
 }; 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-  
-const fbBox = document.getElementById("modalFacebookBox");
-const fbText = document.getElementById("modalFacebookText");
+ function openStudentModal(student) {
 
-if (student.facebook && student.facebook.trim() !== "") {
+  document.getElementById("modalAvatar").src =
+    student.avatar || "default-avatar.png";
 
-  const username = student.facebook.trim();
+  document.getElementById("modalName").innerText = student.name;
+  document.getElementById("modalBirthday").innerText =
+    "🎂 " + student.birthday;
 
-  // Hiển thị dạng có thể copy
-  fbText.innerText = "facebook.com/" + username;
+  document.getElementById("modalGender").innerText =
+    "👤 " + student.gender;
 
-  fbBox.classList.remove("hidden");
+  document.getElementById("modalDescription").innerText =
+    student.description || "Chưa có mô tả.";
 
-} else {
-  fbBox.classList.add("hidden");
+  const fbBox = document.getElementById("modalFacebookBox");
+  const fbText = document.getElementById("modalFacebookText");
+
+  if (student.facebook && student.facebook.trim() !== "") {
+
+    let link = student.facebook.trim();
+
+    if (!link.startsWith("http")) {
+      link = "https://" + link;
+    }
+
+    fbText.innerText = link;
+    fbBox.classList.remove("hidden");
+
+  } else {
+    fbBox.classList.add("hidden");
+  }
+
+  document.getElementById("studentModal").classList.remove("hidden");
 }
-
+ 
 function closeStudentModal() {
   document.getElementById("studentModal").classList.add("hidden");
 }
@@ -375,6 +394,7 @@ function loadStudents() {
 </div>
 </body>
 </html>
+
 
 
 
