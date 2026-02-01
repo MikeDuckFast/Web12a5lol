@@ -75,11 +75,9 @@
 }
 
   </style>
-  
 </head>
 
 <body class="bg-zinc-900 text-gray-100">
-
 <header class="bg-red-700 text-white px-6 py-4 flex justify-between items-center shadow-2xl border-b-2 border-yellow-500 sticky top-0 z-50">
 
   <!-- Logo + tên lớp -->
@@ -130,10 +128,8 @@
 
   <section id="section-students" class="hidden">
     <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">👩‍🎓 Danh sách học sinh</h2>
-   
     <div id="studentList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
   </section>
-
   <section id="section-gallery" class="hidden">
   <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Khoảnh khắc A5</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -232,7 +228,6 @@
   });
 }
 
-
   function createPetal() {
   const petal = document.createElement('div');
   petal.className = 'petal';
@@ -266,8 +261,9 @@ setInterval(createPetal, 400);
   messagingSenderId: "542384706583",
   appId: "1:542384706583:web:10b1e914b5479cc93fb852"
 }; 
- firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+  
 function openStudentModal(student) {
   document.getElementById("modalAvatar").src =
     student.avatar || "default-avatar.png";
@@ -282,8 +278,18 @@ function openStudentModal(student) {
   document.getElementById("modalDescription").innerText =
     student.description || "Chưa có mô tả.";
 
+  const fbBtn = document.getElementById("modalFacebook");
+
+  if (student.facebook && student.facebook.trim() !== "") {
+    fbBtn.href = student.facebook;
+    fbBtn.classList.remove("hidden");
+  } else {
+    fbBtn.classList.add("hidden");
+  }
+
   document.getElementById("studentModal").classList.remove("hidden");
 }
+
 
 function closeStudentModal() {
   document.getElementById("studentModal").classList.add("hidden");
@@ -327,7 +333,6 @@ function loadStudents() {
 
   const card = document.createElement("div");
   card.className = "bg-zinc-800 p-4 rounded-2xl shadow-xl border border-yellow-500/20 text-center hover:scale-105 transition duration-300 cursor-pointer";
-
   card.innerHTML = `
     <img src="${student.avatar || 'default-avatar.png'}"
          class="w-24 h-24 mx-auto rounded-full object-cover border-4 border-yellow-500 mb-3">
@@ -340,16 +345,13 @@ function loadStudents() {
   container.appendChild(card);
 });
 ;
-
   });
 }
 </script>
   <!-- Modal thông tin học sinh -->
 <div id="studentModal"
      class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-[200] p-4">
-
   <div class="bg-zinc-900 max-w-md w-full rounded-2xl p-6 border border-yellow-500 shadow-2xl relative">
-
     <button onclick="closeStudentModal()"
       class="absolute top-3 right-4 text-white text-2xl">&times;</button>
 
@@ -360,17 +362,32 @@ function loadStudents() {
         class="text-yellow-400 text-xl font-bold text-center"></h3>
 
     <p id="modalBirthday" class="text-center text-gray-300 mt-2"></p>
-    <p id="modalGender" class="text-center text-gray-400"></p>
+<p id="modalGender" class="text-center text-gray-400"></p>
 
-    <div class="mt-4 bg-yellow-500/10 p-4 rounded-xl border border-yellow-500/20">
-      <p id="modalDescription" class="text-gray-200 text-sm leading-relaxed"></p>
-    </div>
-
-  </div>
+<!-- Logo Facebook -->
+<div class="text-center mt-3">
+  <a id="modalFacebook"
+     href="#"
+     target="_blank"
+     class="hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-500 transition shadow-lg">
+     
+     <!-- SVG icon Facebook -->
+     <svg xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24" 
+          fill="white" 
+          class="w-5 h-5">
+       <path d="M22 12a10 10 0 1 0-11.63 9.88v-6.99H7.9V12h2.47V9.8c0-2.44 1.46-3.8 3.7-3.8 1.07 0 2.2.19 2.2.19v2.42h-1.24c-1.22 0-1.6.76-1.6 1.54V12h2.72l-.43 2.89h-2.29v6.99A10 10 0 0 0 22 12z"/>
+     </svg>
+  </a>
 </div>
-
+<div class="mt-4 bg-yellow-500/10 p-4 rounded-xl border border-yellow-500/20">
+  <p id="modalDescription" class="text-gray-200 text-sm leading-relaxed"></p>
+</div>
+</div>
+</div>
 </body>
 </html>
+
 
 
 
