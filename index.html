@@ -9,15 +9,28 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
 <style>
     body { font-family: 'Quicksand', sans-serif; overflow-x: hidden; }
     #wish-message { font-family: 'Dancing Script', cursive; }
     .wish-title { font-family: 'Dancing Script', cursive; }
 
+    /* KHÔI PHỤC LOGO SHINE CỦA BẠN */
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      background: linear-gradient(90deg, #fff6a0, #ffd700, #ffae00, #ffd700);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.6), 0 0 15px rgba(255, 140, 0, 0.4);
+      animation: logoShine 4s linear infinite;
+      transition: 0.3s;
+    }
+    @keyframes logoShine { 0% { background-position: 0% } 100% { background-position: 200% } }
+
+    /* HIỆU ỨNG CHỮ GIỮA */
     .animate-glow {
       background: linear-gradient(90deg, #4facfe, #00f2fe, #facc15, #4facfe);
       background-size: 200% auto;
@@ -33,7 +46,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Hiệu ứng vật rơi mới: Máy bay giấy/Bút */
     .petal {
       position: fixed;
       top: -40px;
@@ -48,24 +60,15 @@
       100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
     }
 
-    .logo {
-      font-size: 22px;
-      font-weight: 900;
-      background: linear-gradient(90deg, #fff6a0, #ffd700, #ffae00, #ffd700);
-      background-size: 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.6);
-      animation: logoShine 4s linear infinite;
-    }
-
-    /* Style cho bộ đếm ngược */
     .countdown-item {
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 215, 0, 0.3);
-      padding: 10px;
-      border-radius: 15px;
-      min-width: 70px;
+      padding: 15px;
+      border-radius: 20px;
+      min-width: 85px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 </style>
 </head>
@@ -74,7 +77,7 @@
 <header class="bg-blue-800 text-white px-6 py-4 shadow-2xl border-b-2 border-yellow-500 sticky top-0 z-50">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4">
     <h1 class="logo cursor-pointer text-center md:text-left" onclick="showSection('home')">
-      🎓 12A5 - Rạch Kiến
+      ⚜ Lớp 12A5 - Rạch Kiến
     </h1>
     <div class="flex justify-between items-center text-[11px] md:text-sm font-bold w-full max-w-md mx-auto">
       <button onclick="showSection('home')" class="hover:text-yellow-300 transition">🏠 Trang chủ</button>
@@ -86,61 +89,30 @@
 </header>
 
 <main class="px-4 md:px-8 max-w-7xl mx-auto min-h-screen">
-  <section id="section-home" class="py-10 text-center flex flex-col justify-center items-center min-h-[80vh]">
-    <div id="home-content" class="fade-in-up w-full">
+  <section id="section-home" class="py-10 text-center flex flex-col justify-center items-center min-h-[85vh]">
+    <div id="home-content" class="fade-in-up w-full flex flex-col items-center">
       <div class="text-6xl mb-6">✍️</div>
-      <h2 class="wish-title animate-glow text-4xl md:text-6xl font-black mb-6 uppercase px-2">
-        Sẵn Sàng Cho Kỳ Thi 2026
+      <h2 class="wish-title animate-glow text-5xl md:text-7xl font-black mb-10 uppercase tracking-tight">
+        SẴN SÀNG CHO KỲ THI 2026
       </h2>
       
-      <div class="flex justify-center gap-3 md:gap-6 mb-10">
-        <div class="countdown-item"><div id="days" class="text-2xl md:text-4xl font-bold text-yellow-400">00</div><div class="text-xs uppercase">Ngày</div></div>
-        <div class="countdown-item"><div id="hours" class="text-2xl md:text-4xl font-bold text-yellow-400">00</div><div class="text-xs uppercase">Giờ</div></div>
-        <div class="countdown-item"><div id="minutes" class="text-2xl md:text-4xl font-bold text-yellow-400">00</div><div class="text-xs uppercase">Phút</div></div>
-        <div class="countdown-item"><div id="seconds" class="text-2xl md:text-4xl font-bold text-yellow-400">00</div><div class="text-xs uppercase">Giây</div></div>
-      </div>
-
-      <div class="max-w-3xl mx-auto bg-blue-900/30 backdrop-blur-md p-8 rounded-[2rem] border-2 border-yellow-600/50 shadow-2xl mb-10 mx-4">
-        <p id="wish-message" class="text-2xl md:text-4xl text-yellow-300 leading-relaxed whitespace-pre-line">
-          "Cố gắng hết mình, không gì là không thể.
-          Chúc cả lớp 12A5 thi tốt, bình tĩnh và tự tin.
-          Hẹn gặp lại ở giảng đường Đại học!"
-          ✨ <b>ĐẬU NGUYỆN VỌNG 1</b> ✨
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section id="section-students" class="hidden py-10">
-    <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">👩‍🎓 Danh sách học sinh</h2>
-    <div id="studentList" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
-  </section>
-
-  <section id="section-gallery" class="hidden py-10">
-    <h2 class="text-2xl font-bold mb-10 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Hành Trình Thanh Xuân</h2>
-    <div class="relative border-l-4 border-yellow-600/50 ml-4 space-y-16">
-      <div class="relative pl-10">
-        <div class="absolute -left-[14px] top-2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
-        <h3 class="text-xl font-bold text-yellow-400 mb-4">📚 Năm Lớp 10</h3>
-        <img src="class10.jpg" onclick="openModal(this.src)" class="rounded-2xl shadow-xl border-4 border-blue-800 w-full max-w-2xl h-64 object-cover cursor-zoom-in">
-      </div>
-      <div class="relative pl-10">
-        <div class="absolute -left-[14px] top-2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
-        <h3 class="text-xl font-bold text-yellow-400 mb-4">🎓 Năm Lớp 12</h3>
-        <img src="class12.jpg" onclick="openModal(this.src)" class="rounded-2xl shadow-xl border-4 border-blue-800 w-full max-w-2xl h-64 object-cover cursor-zoom-in">
-      </div>
-    </div>
-  </section>
-
-  <section id="section-events" class="hidden py-10">
-    <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📅 Kỷ niệm lớp mình</h2>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-zinc-800 p-4 rounded-2xl border border-zinc-700 hover:border-yellow-500 transition">
-            <h3 class="text-lg font-bold text-yellow-400 mb-2">🎈 Hội Xuân 2026</h3>
-            <p class="text-sm text-gray-400 mb-4">Kỷ niệm phiên chợ khởi nghiệp 12A5.</p>
-            <button onclick="openModal('menu.jpg')" class="text-xs bg-yellow-600 px-3 py-1 rounded-lg">Xem chi tiết</button>
+      <div class="flex justify-center flex-wrap gap-4 md:gap-8 mb-12">
+        <div class="countdown-item">
+          <span id="days" class="text-3xl md:text-5xl font-bold text-yellow-400">00</span>
+          <span class="text-[10px] md:text-xs uppercase mt-1 font-bold text-gray-400">Ngày</span>
         </div>
+        <div class="countdown-item">
+          <span id="hours" class="text-3xl md:text-5xl font-bold text-yellow-400">00</span>
+          <span class="text-[10px] md:text-xs uppercase mt-1 font-bold text-gray-400">Giờ</span>
+        </div>
+        <div class="countdown-item">
+          <span id="minutes" class="text-3xl md:text-5xl font-bold text-yellow-400">00</span>
+          <span class="text-[10px] md:text-xs uppercase mt-1 font-bold text-gray-400">Phút</span>
+        </div>
+        <div class="countdown-item">
+          <span id="seconds" class="text-3xl md:text-5xl font-bold text-yellow-400">00</span>
+          <span class="text-[10px] md:text-xs uppercase mt-1 font-bold text-gray-400">Giây</span>
+        </div>
+      </div>
 
-        <div class="bg-zinc-800/50 p-4 rounded-2xl border border-dashed border-zinc-600 flex items-center justify-center">
-            <p class="text-gray-5
+      <div class="max-w-4xl w-full bg-blue-900/30 backdrop-blur-lg p-10 rounded-[2.5rem] border-
