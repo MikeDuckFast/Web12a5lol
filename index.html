@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>12A5 - Quyết Tâm Đỗ Nguyện Vọng 1</title>
+  <title>12A5 - Đỗ Nguyện Vọng 1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
@@ -72,7 +72,7 @@
 <header class="bg-blue-900 text-white px-6 py-4 shadow-2xl border-b-2 border-yellow-500 sticky top-0 z-50">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between md:items-center gap-4">
     <h1 class="logo cursor-pointer text-center md:text-left" onclick="showSection('home')">
-      ⚜ Lớp 12A5 - Rạch Kiến
+      ⚜ Lớp 12A5 - THPT Rạch Kiến
     </h1>
     <nav class="flex justify-between items-center text-[11px] md:text-sm font-bold w-full max-w-md mx-auto">
       <button onclick="showSection('home')" class="hover:text-yellow-300 transition">🏠 Trang chủ</button>
@@ -87,7 +87,7 @@
   
   <section id="section-home" class="py-10 text-center flex flex-col justify-center items-center min-h-[85vh]">
     <div class="fade-in-up w-full">
-      <div class="text-6xl mb-4">✍️</div>
+      
       <h2 class="wish-title animate-glow text-5xl md:text-7xl font-black mb-8 uppercase">
         KỲ THI THPTQG 2026
       </h2>
@@ -116,36 +116,50 @@
   </section>
 
   <section id="section-gallery" class="hidden py-10">
+  <div class="px-2">
     <h2 class="text-2xl font-bold mb-10 text-yellow-500 border-b border-yellow-500/30 pb-2">📸 Hành Trình Thanh Xuân</h2>
     
-    <div class="relative border-l-4 border-yellow-600/50 ml-4 space-y-16 text-left">
+    <div class="relative border-l-2 md:border-l-4 border-yellow-600/50 ml-2 md:ml-4 space-y-12 text-left">
       
-      <div class="relative pl-10">
-        <div class="absolute -left-[14px] top-2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
-        <div class="bg-zinc-800/50 p-4 rounded-2xl border border-zinc-700 hover:border-blue-500 transition shadow-lg">
-          <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">📚 Năm Lớp 10</h3>
-          <img src="class10.jpg" onclick="openModal(this.src)" class="rounded-xl shadow-xl border-2 border-blue-900 w-full max-w-2xl h-64 object-cover cursor-zoom-in hover:scale-[1.01] transition-transform">
+      <div class="relative pl-6 md:pl-10">
+        <div class="absolute -left-[11px] md:-left-[14px] top-2 w-5 h-5 md:w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
+        
+        <div class="inline-block bg-zinc-800/50 p-2 md:p-4 rounded-2xl border border-zinc-700 hover:border-blue-500 transition shadow-lg max-w-full">
+          <h3 class="text-lg md:text-xl font-bold text-yellow-400 mb-3 flex items-center gap-2">📚 Năm Lớp 10</h3>
+          <div class="overflow-hidden rounded-xl shadow-inner bg-zinc-900">
+             <img src="class10.jpg" onclick="openModal(this.src)" 
+                  class="w-full h-auto max-w-[600px] object-contain cursor-zoom-in hover:scale-[1.02] transition-transform duration-300">
+          </div>
         </div>
       </div>
 
-      <div class="relative pl-10">
-        <div class="absolute -left-[14px] top-2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
-        <div class="bg-zinc-800/50 p-4 rounded-2xl border border-zinc-700 hover:border-blue-500 transition shadow-lg">
-          <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">📖 Năm Lớp 11</h3>
-          <img src="class11.jpg" onclick="openModal(this.src)" class="rounded-xl shadow-xl border-2 border-blue-900 w-full max-w-2xl h-64 object-cover cursor-zoom-in hover:scale-[1.01] transition-transform">
+      <div class="relative pl-6 md:pl-10">
+        <div class="absolute -left-[11px] md:-left-[14px] top-2 w-5 h-5 md:w-6 h-6 bg-yellow-500 rounded-full border-4 border-zinc-900"></div>
+        
+        <div class="inline-block bg-zinc-800/50 p-2 md:p-4 rounded-2xl border border-zinc-700 hover:border-blue-500 transition shadow-lg max-w-full">
+          <h3 class="text-lg md:text-xl font-bold text-yellow-400 mb-3 flex items-center gap-2">📖 Năm Lớp 11</h3>
+          <div class="overflow-hidden rounded-xl shadow-inner bg-zinc-900">
+             <img src="class11.jpg" onclick="openModal(this.src)" 
+                  class="w-full h-auto max-w-[600px] object-contain cursor-zoom-in hover:scale-[1.02] transition-transform duration-300">
+          </div>
         </div>
       </div>
 
-      <div class="relative pl-10">
-        <div class="absolute -left-[14px] top-2 w-6 h-6 bg-red-500 rounded-full border-4 border-zinc-900 animate-pulse"></div>
-        <div class="bg-zinc-800/50 p-4 rounded-2xl border border-yellow-500 transition shadow-lg">
-          <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">🎓 Năm Lớp 12 - Hiện Tại</h3>
-          <img src="class12.jpg" onclick="openModal(this.src)" class="rounded-xl shadow-xl border-2 border-yellow-600 w-full max-w-2xl h-64 object-cover cursor-zoom-in hover:scale-[1.01] transition-transform">
+      <div class="relative pl-6 md:pl-10">
+        <div class="absolute -left-[11px] md:-left-[14px] top-2 w-5 h-5 md:w-6 h-6 bg-red-500 rounded-full border-4 border-zinc-900 animate-pulse"></div>
+        
+        <div class="inline-block bg-zinc-800/50 p-2 md:p-4 rounded-2xl border border-yellow-500 transition shadow-lg max-w-full">
+          <h3 class="text-lg md:text-xl font-bold text-yellow-400 mb-3 flex items-center gap-2">🎓 Năm Lớp 12</h3>
+          <div class="overflow-hidden rounded-xl shadow-inner bg-zinc-900">
+             <img src="class12.jpg" onclick="openModal(this.src)" 
+                  class="w-full h-auto max-w-[600px] object-contain cursor-zoom-in hover:scale-[1.02] transition-transform duration-300">
+          </div>
         </div>
       </div>
 
     </div>
-  </section>
+  </div>
+</section>
 
   <section id="section-events" class="hidden py-10 text-left">
     <h2 class="text-2xl font-bold mb-6 text-yellow-500 border-b border-yellow-500/30 pb-2">📅 Kỷ niệm lớp mình</h2>
